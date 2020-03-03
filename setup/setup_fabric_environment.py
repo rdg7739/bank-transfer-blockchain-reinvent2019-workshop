@@ -147,10 +147,12 @@ else:
         print (str(count) + ") " + member['Name'] + " (Id=" + member['Id'] + ")")
 
     print ("\nSelect the member that you want to setup this environment for: ")
+    tryAgain = True
     while tryAgain:
         try:
             choice = input()
             blockchainMember = blockchainMembers['Members'][int(choice) - 1]
+            tryAgain = False
         except KeyboardInterrupt:
             sys.exit()
         except Exception as e:
@@ -193,10 +195,12 @@ else:
         print (str(count) + ") " + peer['Id'])
 
     print ("\nSelect the member that you want to setup this environment for: ")
+    tryAgain = True
     while tryAgain:
         try:
             choice = input()
             peer = peer['Nodes'][int(choice) - 1]
+            tryAgain = False
         except KeyboardInterrupt:
             sys.exit()
         except Exception as e:
@@ -355,13 +359,13 @@ def obtain_admin_cert():
 
     binaryLocation="fabric-ca-client"
     # Check if we can find the hardcoded path, if so, use it. Otherwise, let the os find it in $PATH
-    if os.path.exists("/home/ec2-user/go/src/github.com/hyperledger/fabric-ca/bin/fabric-ca-client") == True:
-        binaryLocation="/home/ec2-user/go/src/github.com/hyperledger/fabric-ca/bin/fabric-ca-client"
+    if os.path.exists("/home/ubuntu/go/src/github.com/hyperledger/fabric-ca/bin/fabric-ca-client") == True:
+        binaryLocation="/home/ubuntu/go/src/github.com/hyperledger/fabric-ca/bin/fabric-ca-client"
 
     command = [binaryLocation, "enroll"
                 , "-u", "https://" + memberDetails['Member']['FrameworkAttributes']['Fabric']['AdminUsername'] + ":" + adminPass + "@" + memberDetails['Member']['FrameworkAttributes']['Fabric']['CaEndpoint']
-                , "--tls.certfiles", "/home/ec2-user/managedblockchain-tls-chain.pem"
-                , "-M", "/home/ec2-user/admin-msp"]
+                , "--tls.certfiles", "/home/ubuntu/managedblockchain-tls-chain.pem"
+                , "-M", "/home/ubuntu/admin-msp"]
 
     try:
         print ("Executing: " + ' '.join(command))
