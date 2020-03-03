@@ -27,5 +27,5 @@ services:
     command: /bin/bash
     volumes:
       - /var/run/:/host/var/run/
-      - /home/ec2-user/fabric-samples/chaincode:/opt/gopath/src/github.com/
-      - /home/ec2-user:/opt/home
+      - /home/ubuntu/fabric-samples/chaincode:/opt/gopath/src/github.com/
+      - /home/ubuntu:/opt/home
