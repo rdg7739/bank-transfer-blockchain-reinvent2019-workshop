@@ -26,6 +26,7 @@ sudo pip install requests
 
 echo "Updating apt-get repos"
 sudo apt-get update -y
+sudo apt-get -y upgrade
 
 echo "Installing telnet and emacs"
 sudo apt-get install -y telnet
@@ -43,6 +44,13 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.20.0/docker-c
 sudo chmod a+x /usr/local/bin/docker-compose
 sudo apt-get install libtool -y
 
+echo "Installing go, We need 1.10+ version"
+cd /tmp
+wget https://dl.google.com/go/go1.14.linux-amd64.tar.gz
+sudo tar -xvf go1.14.linux-amd64.tar.gz
+sudo rm -fr /usr/local/go
+sudo mv go /usr/local
+
 echo "Fixing Bash Profile"
 rm ~/.bash_profile
 cat > ~/.bash_profile << EOF
@@ -54,7 +62,7 @@ fi
 # User specific environment and startup programs
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 # GOROOT is the location where Go package is installed on your system
-export GOROOT=/usr/lib/go-1.9/
+export GOROOT=/usr/local/go
 # GOPATH is the location of your work directory
 export GOPATH=$HOME/go
 # PATH in order to access go binary system wide
@@ -67,10 +75,11 @@ echo "Checking versions"
 docker version
 sudo /usr/local/bin/docker-compose version
 
-echo "Installing go"
-# sudo add-apt-repository ppa:longsleep/golang-backports
-# sudo apt-get update
-# sudo apt-get install golang-go
+
+export PATH=/usr/local/go/bin:$PATH
+echo "export PATH=\/usr/local/go/bin:$PATH" >> ~/.bash_profile
+sudo add-apt-repository ppa:longsleep/golang-backports -y
+sudo apt-get install golang-go -y
 go version
 
 ## Setup Fabric client
@@ -170,5 +179,5 @@ echo "2) Docker CLI helper script."
 echo "=========================================================================="
 echo "Completed successfully. Please run:"
 echo "1) source ~/.bash_profile"
-echo "2) ~/environment/bank-transfer-blockchain-reinvent2019-workshop/setup/setup_fabric_environment.py to finish setting up this environment."
+echo "2) python ~/environment/bank-transfer-blockchain-reinvent2019-workshop/setup/setup_fabric_environment.py to finish setting up this environment."
 echo "=========================================================================="
