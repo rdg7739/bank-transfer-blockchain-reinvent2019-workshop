@@ -15,6 +15,7 @@ version: '2'
 services:
   cli:
     container_name: cli
+    restart: always
     image: hyperledger/fabric-tools:1.2.0
     tty: true
     environment:
